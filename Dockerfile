@@ -1,17 +1,21 @@
 FROM ubuntu
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends curl unzip tzdata gcc libc-dev \
+    && DEBIAN_FRONTEND=noninteractive TZ=Asia/Shanghai apt-get install -y --no-install-recommends curl tzdata git \
+    libcurl4-openssl-dev gcc libc-dev cmake make gettext libssl-dev git g++ build-essential automake python3 \
     && curl -o /usr/local/bin/su-exec.c https://raw.githubusercontent.com/ncopa/su-exec/master/su-exec.c -k \
     && gcc -Wall \
          /usr/local/bin/su-exec.c -o/usr/local/bin/su-exec \
     && chown root:root /usr/local/bin/su-exec \
     && chmod 0755 /usr/local/bin/su-exec \
-    && curl -o  \
-    /tmp/transmission-daemon.zip -L \
-    https://github.abskoop.workers.dev/https://github.com/HHANCLUB/docker-transmission/releases/download/1.0/transmission-daemon.zip -k \
-    && unzip -d /transmission /tmp/transmission-daemon.zip \
-    && rm -rf /tmp/* /root/.cache /var/lib/apt/lists/* /usr/local/bin/su-exec.c \
-    && apt-get purge -y --auto-remove unzip gcc libc-dev
+    && export GIT_SSL_NO_VERIFY=1 && git clone https://github.com/Shurelol/transmission.git /tmp/transmission \
+    && cd /tmp/transmission && mkdir build && cd build \
+    && git submodule update --init --recursive \
+    && cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo .. \
+    && make && make install \
+    && apt-get purge -y --auto-remove git libcurl4-openssl-dev gcc libc-dev cmake make \
+    gettext libssl-dev git g++ build-essential automake python3 \
+    && rm -rf /tmp/* /root/.cache /var/lib/apt/lists/* /usr/local/bin/transmission-create \
+    /usr/local/bin/transmission-edit /usr/local/bin/transmission-remote  /usr/local/bin/transmission-show
 ENV LANG="C.UTF-8" \
     TZ="Asia/Shanghai" \
     TRANSMISSION_WEB_HOME="/transmission/web_ui" \
