@@ -1,5 +1,7 @@
 # docker-transmission
 
+docker镜像链接：https://hub.docker.com/r/baozaodetudou/transmission
+
 ```shell
 docker run -d \
   --name=transmission \
