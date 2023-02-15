@@ -5,16 +5,16 @@ docker镜像链接：https://hub.docker.com/r/baozaodetudou/transmission
 ```shell
 docker run -d \
   --name=transmission \
-  -e UID=1000 \
-  -e GID=1000 \
+  -e UID=0 \
+  -e GID=0 \
   -e TR_USER=username `#optional` \
   -e TR_PASSWORD=password `#optional` \
   -p 9091:9091 \
-  -p 51413:51413 \
-  -p 51413:51413/udp \
+  -p 21413:51413 \
+  -p 21413:51413/udp \
   -v /Users/tzp/Downloads/config:/transmission/config \
   --restart unless-stopped \
-  baozaodetudou:transmission
+  baozaodetudou/transmission:latest
 
 ```
 
