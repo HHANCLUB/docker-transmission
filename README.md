@@ -7,12 +7,12 @@ docker run -d \
   --name=transmission \
   -e UID=0 \
   -e GID=0 \
-  -e TR_USER=username `#optional` \
+  -e TR_USER=admin `#optional` \
   -e TR_PASSWORD=password `#optional` \
   -p 9091:9091 \
   -p 21413:51413 \
   -p 21413:51413/udp \
-  -v /Users/tzp/Downloads/config:/transmission/config \
+  -v /root/se/tr/config:/transmission/config \
   --restart unless-stopped \
   baozaodetudou/transmission:latest
 
